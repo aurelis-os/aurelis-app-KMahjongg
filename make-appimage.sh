@@ -6,8 +6,8 @@ ARCH=$(uname -m)
 VERSION=$(pacman -Q kmahjongg | awk '{print $2; exit}')
 export ARCH VERSION
 export OUTPATH=./dist
-export ADD_HOOKS="self-updater.hook"
-export UPINFO="gh-releases-zsync|${GITHUB_REPOSITORY%/*}|${GITHUB_REPOSITORY#*/}|latest|*$ARCH.AppImage.zsync"
+# export ADD_HOOKS="self-updater.hook"
+# export UPINFO="gh-releases-zsync|${GITHUB_REPOSITORY%/*}|${GITHUB_REPOSITORY#*/}|latest|*$ARCH.AppImage.zsync"
 export ICON=/usr/share/icons/hicolor/128x128/apps/kmahjongg.png
 export DESKTOP=/usr/share/applications/org.kde.kmahjongg.desktop
 export STARTUPWMCLASS=org.kde.kmahjongg
@@ -17,7 +17,9 @@ export USE_HOST_DRIVERS_EXPERIMENTAL=1
 quick-sharun /usr/bin/kmahjongg /usr/share/kmahjongg /usr/share/config.kcfg /usr/lib/libKMahjongg6.so* /usr/share/kmahjongglib
 
 # Turn AppDir into AppImage
-quick-sharun --make-appimage
+GITHUB_REPOSITORY= quick-sharun --make-appimage
+rm -f ./dist/*.zsync
+sh ./pkg-meta.sh
 
 # Test the app for 12 seconds, if the app normally quits before that time
 # then skip this or check if some flag can be passed that makes it stay open
